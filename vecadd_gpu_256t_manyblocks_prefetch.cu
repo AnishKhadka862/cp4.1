@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <math.h>
 // Kernel function to add the elements of two arrays
@@ -30,10 +29,13 @@ int main(void)
   cudaMemPrefetchAsync((void *)x, N*sizeof(float), deviceID) ;
   cudaMemPrefetchAsync((void *)y, N*sizeof(float), deviceID) ;
 
+
   // Run kernel on 1M elements on the GPU
   int blockSize = 256;
   int numBlocks = (N + blockSize - 1) / blockSize;
   add<<<numBlocks, blockSize>>>(N, x, y);
+
+  std::cout << "Number of thread blocks: " << numBlocks << std::endl;
 
   // Wait for GPU to finish before accessing on host
   cudaDeviceSynchronize();
